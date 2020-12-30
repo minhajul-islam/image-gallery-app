@@ -91,8 +91,6 @@ function App() {
       <GalleryView photos={photos} selectedPage={selectedPosition} />
       <View style={styles.space} />
       <PaginationView
-        hasPrevious
-        hasNext
         selectedPosition={selectedPosition}
         numberOfPhotos={photos.length}
         photosPerPage={4}
