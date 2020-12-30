@@ -21,6 +21,7 @@ function AnimatedView(props) {
     Animated.timing(fadeAnim, {
       toValue: 1,
       duration: 800,
+      useNativeDriver: true,
     }).start();
   };
 
@@ -29,6 +30,7 @@ function AnimatedView(props) {
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 800,
+      useNativeDriver: true,
     }).start();
   };
 
