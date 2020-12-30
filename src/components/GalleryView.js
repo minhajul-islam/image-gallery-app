@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     height: (FullWidth - 40) / 2,
     width: (FullWidth - 40) / 2,
     margin: 4,
+    borderRadius: 4,
     backgroundColor: '#DEE2E7',
   },
 });

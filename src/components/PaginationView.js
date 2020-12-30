@@ -9,6 +9,10 @@ function PaginationView(props) {
     pageNumbers.push(i);
   }
 
+  if (pageNumbers.length < 2) {
+    return null;
+  }
+
   return (
     <View style={styles.container}>
       <Button
