@@ -8,7 +8,7 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, AsyncStorage} from 'react-native';
+import {StyleSheet, View, AsyncStorage, PermissionsAndroid} from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
 import {CameraButton, GalleryView, PaginationView} from './components';
 
@@ -23,16 +23,26 @@ function App() {
   }, []);
 
   // Action for take photo from camera
-  const takePhoto = () => {
-    ImagePicker.launchCamera(
-      {
-        mediaType: 'photo',
-        quality: 1,
-        saveToPhotos: true,
-        includeBase64: false,
-      },
-      _storePhotoHandler,
-    );
+  const takePhoto = async () => {
+    PermissionsAndroid.requestMultiple([
+      PermissionsAndroid.PERMISSIONS.CAMERA,
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    ]).then((result) => {
+      if (
+        result['android.permission.WRITE_EXTERNAL_STORAGE'] &&
+        result['android.permission.CAMERA']
+      ) {
+        ImagePicker.launchCamera(
+          {
+            mediaType: 'photo',
+            quality: 1,
+            saveToPhotos: true,
+            includeBase64: false,
+          },
+          _storePhotoHandler,
+        );
+      }
+    });
   };
 
   // Action for save photo to local storage
