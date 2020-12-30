@@ -1,17 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
-  Alert,
+  View,
   Image,
   Modal,
   StyleSheet,
-  Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  TouchableHighlight,
-  View,
 } from 'react-native';
-import {FullWidth} from '../constants/BaseStyle';
 import {Icons} from '../constants';
+import {FullWidth} from '../constants/BaseStyle';
 
 function PreviewPhoto(props) {
   const {modalVisible, setModalVisible} = props;
@@ -28,7 +25,6 @@ function PreviewPhoto(props) {
         onPressOut={() => {
           setModalVisible(!modalVisible);
         }}>
-        {/*<View style={styles.centeredView}>*/}
         <TouchableWithoutFeedback>
           <View style={styles.modalView}>
             <View style={{flexDirection: 'row'}}>
@@ -50,7 +46,6 @@ function PreviewPhoto(props) {
             )}
           </View>
         </TouchableWithoutFeedback>
-        {/*</View>*/}
       </TouchableOpacity>
     </Modal>
   );
@@ -76,12 +71,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  openButton: {
-    backgroundColor: '#F194FF',
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
   },
   image: {
     height: FullWidth,

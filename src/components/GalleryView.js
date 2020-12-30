@@ -1,14 +1,5 @@
 import React, {useRef, useState, useEffect} from 'react';
-import {
-  TouchableOpacity,
-  Dimensions,
-  View,
-  Text,
-  Alert,
-  Image,
-  Animated,
-  StyleSheet,
-} from 'react-native';
+import {TouchableOpacity, View, Image, StyleSheet} from 'react-native';
 import {FullWidth} from '../constants/BaseStyle';
 import {AnimatedView} from './common';
 import PreviewPhoto from './PreviewPhoto';
@@ -33,22 +24,25 @@ function GalleryView(props) {
       setImageTwo(props.selectedPage * 4 - 3);
       setImageThree(props.selectedPage * 4 - 2);
       setImageFour(props.selectedPage * 4 - 1);
-    }, 500);
+    }, 800);
   }, [props.selectedPage]);
-
-  if (props.photos == null) {
-    return null;
-  }
 
   const previewImage = (uri) => {
     setPreviewImageUri(uri);
     setModalVisible(true);
   };
 
-  // const imageOne = props.selectedPage * 4 - 4;
-  // const imageTwo = props.selectedPage * 4 - 3;
-  //const imageThree = props.selectedPage * 4 - 2;
-  //const imageFour = props.selectedPage * 4 - 1;
+  const imageItem = (uri) => {
+    return (
+      <TouchableOpacity onPress={() => previewImage(uri)}>
+        <Image style={styles.image} source={{uri: uri}} />
+      </TouchableOpacity>
+    );
+  };
+
+  if (props.photos == null) {
+    return null;
+  }
   return (
     <View>
       <AnimatedView
@@ -57,44 +51,10 @@ function GalleryView(props) {
         selectedPage={props.selectedPage}>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
-            {props.photos[imageOne] && (
-              <TouchableOpacity
-                onPress={() => previewImage(props.photos[imageOne].uri)}>
-                <Image
-                  style={styles.image}
-                  source={{uri: props.photos[imageOne].uri}}
-                />
-              </TouchableOpacity>
-            )}
-            {props.photos[imageTwo] && (
-              <TouchableOpacity
-                onPress={() => previewImage(props.photos[imageTwo].uri)}>
-                <Image
-                  style={styles.image}
-                  source={{uri: props.photos[imageTwo].uri}}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
-          <View style={styles.rowContainer}>
-            {props.photos[imageThree] && (
-              <TouchableOpacity
-                onPress={() => previewImage(props.photos[imageThree].uri)}>
-                <Image
-                  style={styles.image}
-                  source={{uri: props.photos[imageThree].uri}}
-                />
-              </TouchableOpacity>
-            )}
-            {props.photos[imageFour] && (
-              <TouchableOpacity
-                onPress={() => previewImage(props.photos[imageFour].uri)}>
-                <Image
-                  style={styles.image}
-                  source={{uri: props.photos[imageFour].uri}}
-                />
-              </TouchableOpacity>
-            )}
+            {props.photos[imageOne] && imageItem(props.photos[imageOne].uri)}
+            {props.photos[imageTwo] && imageItem(props.photos[imageTwo].uri)}
+            {props.photos[imageThree] && imageItem(props.photos[imageThree].uri)}
+            {props.photos[imageFour] && imageItem(props.photos[imageFour].uri)}
           </View>
         </View>
       </AnimatedView>
@@ -113,10 +73,12 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginHorizontal: 12,
   },
   image: {
-    height: FullWidth / 2 - 40,
-    width: FullWidth / 2 - 40,
+    height: (FullWidth - 40) / 2,
+    width: (FullWidth - 40) / 2,
     margin: 4,
     backgroundColor: '#DEE2E7',
   },

@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  Dimensions,
-  View,
-  Text,
-  Image,
-  StyleSheet,
-} from 'react-native';
+import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 function Button(props) {
   return (
@@ -17,7 +10,6 @@ function Button(props) {
       {props.text && (
         <Text
           style={[
-            // styles.textStyle,
             props.disabled ? styles.disabledTextStyle : styles.textStyle,
             props.textStyle,
           ]}>
