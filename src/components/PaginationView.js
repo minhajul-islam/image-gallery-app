@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Button} from './common';
 
 function PaginationView(props) {
@@ -21,14 +21,13 @@ function PaginationView(props) {
         pageNumbers.map((item, index) => {
           return (
             <Button
-              onPress={() => props.seeNumberItem(index)}
+              onPress={() => props.seeSpecificItem(index)}
               disabled={index + 1 == props.selectedPosition}
               style={styles.prev}
               text={item.toString()}
             />
           );
         })}
-      {/*<View style={styles.spaceBetween} />*/}
       <Button
         onPress={props.seeNext}
         disabled={props.selectedPosition >= pageNumbers.length}
@@ -46,7 +45,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: '#DEE2E7',
     height: 50,
-    // margin: 16,
   },
   prev: {
     height: 48,

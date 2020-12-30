@@ -1,56 +1,28 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * Image gallery project for interview
+ * @author
+ * Md Minhajul islam
  *
  * @format
  * @flow strict-local
  */
 
 import React, {useState, useEffect} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  Alert,
-  AsyncStorage,
-} from 'react-native';
+import {StyleSheet, View, AsyncStorage} from 'react-native';
 import * as ImagePicker from 'react-native-image-picker';
 import {CameraButton, GalleryView, PaginationView} from './components';
-import PreviewPhoto from './components/PreviewPhoto';
 
 function App() {
   const asyncStorageKey = '@photos';
-  const [response, setResponse] = useState(null);
-  const [pictureBase64, setPictureBase64] = useState(null);
-  const [picture, setPicture] = useState(null);
   const [photos, setPhotos] = useState([]);
   const [selectedPosition, setSelectedPosition] = useState(1);
+
+  // Initialization
   useEffect(() => {
     restorePhotosFromAsync();
   }, []);
 
-  const _storeData = async (response) => {
-    try {
-      setResponse(response);
-      setPictureBase64(response.uri);
-      await AsyncStorage.setItem('image', response.uri);
-    } catch (error) {
-      // Error saving data
-    }
-  };
-
-  const _retrieveData = async () => {
-    try {
-      const value = await AsyncStorage.getItem('image');
-      if (value !== null) {
-        setPicture(value);
-      }
-    } catch (error) {
-      // Error retrieving data
-    }
-  };
+  // Action for take photo from camera
   const takePhoto = () => {
     ImagePicker.launchCamera(
       {
@@ -62,6 +34,8 @@ function App() {
       _storePhotoHandler,
     );
   };
+
+  // Action for save photo to local storage
   const _storePhotoHandler = (response) => {
     if (response.uri == null) {
       return;
@@ -72,6 +46,7 @@ function App() {
     storePhotosInAsync(newPhotos);
   };
 
+  // Store photos to async storage
   const storePhotosInAsync = (newPhotos) => {
     const stringifyData = JSON.stringify(newPhotos);
     AsyncStorage.setItem(asyncStorageKey, stringifyData).catch((err) => {
@@ -79,6 +54,7 @@ function App() {
     });
   };
 
+  // Get photos from async storage
   const restorePhotosFromAsync = () => {
     AsyncStorage.getItem(asyncStorageKey)
       .then((stringifyData) => {
@@ -93,7 +69,7 @@ function App() {
       });
   };
 
-  // Pagination
+  // Actions for pagination such as previous, next and specific position
   const seePrevious = () => {
     if (selectedPosition > 1) {
       setSelectedPosition(selectedPosition - 1);
@@ -104,30 +80,29 @@ function App() {
       setSelectedPosition(selectedPosition + 1);
     }
   };
-
-  const seeNumberItem = (selectedPosition) => {
+  const seeSpecificItem = (selectedPosition) => {
     setSelectedPosition(selectedPosition + 1);
   };
 
   return (
     <View style={styles.container}>
       <CameraButton takePhoto={takePhoto} />
+      <View style={styles.space} />
       <GalleryView photos={photos} selectedPage={selectedPosition} />
       <View style={styles.space} />
       <PaginationView
-        hasPrevious
-        hasNext
         selectedPosition={selectedPosition}
         numberOfPhotos={photos.length}
         photosPerPage={4}
         seePrevious={seePrevious}
-        seeNumberItem={seeNumberItem}
+        seeSpecificItem={seeSpecificItem}
         seeNext={seeNext}
       />
     </View>
   );
 }
 
+// Style for app page
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: 'white',

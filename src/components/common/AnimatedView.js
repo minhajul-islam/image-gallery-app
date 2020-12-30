@@ -1,43 +1,45 @@
 import React, {useRef, useEffect} from 'react';
-import {Animated, Text, View} from 'react-native';
+import {Animated} from 'react-native';
 
 function AnimatedView(props) {
   const fadeAnim = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
 
   useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 5000,
-    }).start();
-  }, [fadeAnim]);
+    if (props.isFadeOut) {
+      fadeOut();
+    }
+  }, [props.isFadeOut]);
 
   useEffect(() => {
-    props.fadeIn = fadeIn;
-    props.fadeOut = fadeOut;
-  }, []);
+    if (props.isFadeIn) {
+      fadeIn();
+    }
+  }, [props.isFadeIn]);
 
+  // action for next page with fade in
   const fadeIn = () => {
-    // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 5000,
+      duration: 800,
+      useNativeDriver: true,
     }).start();
   };
 
+  // action for fade out previous page
   const fadeOut = () => {
-    // Will change fadeAnim value to 0 in 5 seconds
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 5000,
+      duration: 800,
+      useNativeDriver: true,
     }).start();
   };
 
   return (
     <Animated.View
-      key={props.selectedPosition} // Special animatable View
+      key={props.selectedPage}
       style={{
         ...props.style,
-        opacity: fadeAnim, // Bind opacity to animated value
+        opacity: fadeAnim,
       }}>
       {props.children}
     </Animated.View>
