@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   TouchableOpacity,
   Dimensions,
@@ -16,6 +16,26 @@ import PreviewPhoto from './PreviewPhoto';
 function GalleryView(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [previewImageUri, setPreviewImageUri] = useState('');
+  const [imageOne, setImageOne] = useState(null);
+  const [imageTwo, setImageTwo] = useState(null);
+  const [imageThree, setImageThree] = useState(null);
+  const [imageFour, setImageFour] = useState(null);
+  const [isFadeIn, setIsFadeIn] = useState(false);
+  const [isFadeOut, setIsFadeOut] = useState(false);
+
+  useEffect(() => {
+    setIsFadeOut(true);
+    setIsFadeIn(false);
+    setTimeout(function () {
+      setIsFadeOut(false);
+      setIsFadeIn(true);
+      setImageOne(props.selectedPage * 4 - 4);
+      setImageTwo(props.selectedPage * 4 - 3);
+      setImageThree(props.selectedPage * 4 - 2);
+      setImageFour(props.selectedPage * 4 - 1);
+    }, 500);
+  }, [props.selectedPage]);
+
   if (props.photos == null) {
     return null;
   }
@@ -25,13 +45,16 @@ function GalleryView(props) {
     setModalVisible(true);
   };
 
-  const imageOne = props.selectedPage * 4 - 4;
-  const imageTwo = props.selectedPage * 4 - 3;
-  const imageThree = props.selectedPage * 4 - 2;
-  const imageFour = props.selectedPage * 4 - 1;
+  // const imageOne = props.selectedPage * 4 - 4;
+  // const imageTwo = props.selectedPage * 4 - 3;
+  //const imageThree = props.selectedPage * 4 - 2;
+  //const imageFour = props.selectedPage * 4 - 1;
   return (
     <View>
-      <AnimatedView selectedPage={props.selectedPage}>
+      <AnimatedView
+        isFadeIn={isFadeIn}
+        isFadeOut={isFadeOut}
+        selectedPage={props.selectedPage}>
         <View style={styles.container}>
           <View style={styles.rowContainer}>
             {props.photos[imageOne] && (
