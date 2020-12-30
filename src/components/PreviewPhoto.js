@@ -55,13 +55,13 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     justifyContent: 'center',
-    marginTop: 22,
   },
   modalView: {
-    margin: 20,
+    margin: 16,
     backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 16,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 24,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
   image: {
     height: FullWidth,
     width: FullWidth - 32,
-    margin: 4,
+    marginVertical: 16,
+    borderRadius: 8,
   },
   close: {
     height: 16,
